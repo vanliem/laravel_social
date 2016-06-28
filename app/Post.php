@@ -1,25 +1,31 @@
 <?php
 
 namespace App;
-use Illuminate\Contracts\Auth\Authenticatable;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 
-class User extends Model implements Authenticatable
+class Post extends Model
 {
-    use \Illuminate\Auth\Authenticatable;
-
-    public static $rules = array('first_name' => 'required');
+    protected $fillable = ['body', 'user_id'];
+    public static $rules = array(
+        'body' => 'required|min:6|max:1000'
+    );
     public static $errors;
 
-    public function posts()
+    public function user()
     {
-        return $this->hasMany(Post::class);
+        return $this->belongsTo(User::class);
     }
 
     public function likes()
     {
     	return $this->hasMany(Like::class);
+    }
+
+    public function scopePost($query)
+    {
+        return $query->orderBy('created_at', 'desc');
     }
 
     public static function validateRequest($data)
@@ -28,7 +34,7 @@ class User extends Model implements Authenticatable
 
         if ($validate->fails()) {
             self::$errors = $validate->errors()->all();
-
+            
             return false;
         }
 
@@ -39,5 +45,4 @@ class User extends Model implements Authenticatable
     {
         return self::$errors;
     }
-
 }
