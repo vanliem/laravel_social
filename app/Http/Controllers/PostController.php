@@ -20,16 +20,16 @@ class PostController extends Controller
         $post->body = $request->body;
 
         if ($request->user()->posts()->save($post)) {
-            return redirect()->route('dashboard')->with(['flash_message' => 'Post Successfully created!', 'flash_message_type' => 'success']);
+            return redirect()->route('home')->with(['flash_message' => 'Post Successfully created!', 'flash_message_type' => 'success']);
         } else {
-            return redirect()->route('dashboard')->with(['flash_message' => 'There are an error', 'flash_message_type' => 'warning']);
+            return redirect()->route('home')->with(['flash_message' => 'There are an error', 'flash_message_type' => 'warning']);
         }
     }
 
     public function deletePost(Post $post)
     {
         if ($post->delete()) {
-            return redirect()->route('dashboard')->with(['flash_message' => 'Delete successfully!', 'flash_message_type' => 'success']);
+            return redirect()->route('home')->with(['flash_message' => 'Delete successfully!', 'flash_message_type' => 'success']);
         }
     }
 

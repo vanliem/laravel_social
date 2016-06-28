@@ -58,7 +58,7 @@ App.handleLike = function(){
                 },
                 401: function(){
                     alert('Please login!');
-                    window.location.href = "/";
+                    window.location.href = "/login";
                 }
             }
         })

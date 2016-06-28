@@ -13,43 +13,28 @@
 
 Route::get('/', function () {
     return view('welcome');
-})->name('home');
-
-Route::post('/signup', [
-    'uses'  => 'UserController@signUp',
-    'as'    => 'signup'
-]);
-
-Route::post('/signin', [
-    'uses'  => 'UserController@signIn',
-    'as'    => 'signin'
-]);
-
-Route::get('logout', [
-    'uses' => 'UserController@logout',
-    'as' => 'logout'
-]);
+})->name('welcome');
 
 Route::post('account/edit', [
     'uses' => 'UserController@editUser',
     'as'    => 'account.edit'
 ]);
 
-Route::group(['middleware' => 'check.login'], function () {
+Route::group(['middleware' => 'auth'], function () {
 
     Route::get('account', [
         'uses' => 'UserController@getAccount',
         'as'    => 'account'
     ]);
 
+    Route::get('user/image/{image}', [
+        'uses' => 'UserController@getUserImage',
+        'as'    => 'account.image'
+    ]);
+
     Route::get('post/{post}/delete', [
         'uses' => 'PostController@deletePost',
         'as' => 'post.delete'
-    ]);
-
-    Route::get('/dashboard', [
-        'uses' => 'UserController@getDashboard',
-        'as' => 'dashboard'
     ]);
 
     Route::post('post/{post}/edit', [
@@ -67,9 +52,7 @@ Route::group(['middleware' => 'check.login'], function () {
         'as' => 'post.create'
     ]);
 
-    Route::get('user/image/{image}', [
-        'uses' => 'UserController@getUserImage',
-        'as'    => 'account.image'
-    ]);
-
 });
+Route::auth();
+
+Route::get('/home', 'HomeController@index')->name('home');
