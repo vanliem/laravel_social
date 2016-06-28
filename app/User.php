@@ -11,6 +11,11 @@ class User extends Model implements Authenticatable
 
     public static $rules = array('first_name' => 'required');
     public static $errors;
+    protected $fillable = ['first_name', 'email', 'password'];
+    protected $guarded = [
+        'id'
+    ];
+    protected $hidden = ['password', 'remember_token'];
 
     public function posts()
     {

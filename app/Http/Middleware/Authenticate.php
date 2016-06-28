@@ -21,7 +21,7 @@ class Authenticate
             if ($request->ajax() || $request->wantsJson()) {
                 return response('Unauthorized.', 401);
             } else {
-                return redirect()->route('home');
+                return redirect('/login')->with(['flash_message' => 'Please sign in before continuing', 'flash_message_type' => 'warning']);;
             }
         }
         
